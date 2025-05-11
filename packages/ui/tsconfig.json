@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"incremental": true,
+		"allowImportingTsExtensions":true,
+		"jsx": "react",
+		"jsxFactory": "window.RUMIOUS_JSX.createElement",
+		"declaration": true,
+		"declarationDir": "./dist/",
+		"outDir": "./dist",
+		"esModuleInterop": true,
+		"strict": true,
+		"target": "ES6",
+		"module": "NodeNext",
+		"moduleResolution":"nodenext"
+	},
+
+	"include": ["./", "**/jsx.d.ts"],
+	"exclude": ["node_modules"]
+}
