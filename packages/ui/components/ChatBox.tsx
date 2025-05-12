@@ -1,99 +1,127 @@
-import { RumiousComponent, Fragment, createElementRef, RumiousContext, createState, RumiousState } from 'rumious';
+import {
+  RumiousComponent,
+  Fragment,
+  createElementRef,
+  createHTMLInjector,
+  RumiousContext
+} from 'rumious';
+import { EmptyPlaceholder } from './EmptyPlaceholder.jsx'
 import { MessageInfo, ChatData } from '../types/index.js';
 import { ChatService } from '../services/chat.js';
 
-function isMobileView(breakpoint = 768): boolean {
-  return window.innerWidth <= breakpoint;
-}
+const isMobileView = (bp = 768) => window.innerWidth <= bp;
 
 interface ChatBoxProps {
-  context: RumiousContext < ChatData >
+  context: RumiousContext < ChatData > ;
 }
 
 export class ChatBox extends RumiousComponent < ChatBoxProps > {
   static tagName = "smtdfc-chatbox";
+  
   private headerRef = createElementRef();
-  private listMsg=createElementRef();
+  private listMsg = createElementRef();
   private messageRef = createElementRef();
+  private emptyPlaceholder = createElementRef();
   constructor() {
     super();
   }
   
-  addMessage(msg: MessageInfo) {
+  addNote(
+    msg: string
+  ) {
+    this.listMsg.addChild(this.render(
+      <div class="divider divider-text">
+        {msg}
+      </div>
+    ));
+    this.emptyPlaceholder.addClasses("d-none");
+    this.scrollToBottom();
+  }
+  
+  addMessage(
+    msg: MessageInfo
+  ) {
     this.listMsg.addChild(this.render(
       <div class="message">
-      <span class="message-info">
-        <img class="avatar avatar-smd" src="./assets/bg.jpeg" style="width:33px; height:33px;" />
-        <span class="message-sender">
+        <span class="message-info">
+          <img class="avatar avatar-smd" src="./assets/bg.jpeg" style="width:33px; height:33px;" />
+          <span class="message-sender">
             <span>{msg.sender.name}</span>
             <span class="sub-text">{msg.sender.role}</span>
+          </span>
         </span>
-      </span>
-      <div class="message-content">
-         {msg.contents.map((item) => <span>{item}</span>)}
+        <div class="message-content">
+          {msg.contents.map((item) => <span inject={createHTMLInjector(marked.parse(item))}></span>)}
+        </div>
       </div>
-    </div>
     ));
+    this.emptyPlaceholder.addClasses("d-none");
+    this.scrollToBottom();
+  }
+  
+  scrollToBottom() {
     requestAnimationFrame(() => {
-      if (isMobileView()) {
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: 'smooth'
-        });
-      } else {
-        const scrollElement = this.listMsg.target;
-        scrollElement.scrollTo({
-          top: scrollElement.scrollHeight,
-          behavior: 'smooth'
-        });
-      }
+      const el = isMobileView() ? window : this.listMsg.target;
+      el.scrollTo({
+        top: el === window ? document.documentElement.scrollHeight : el.scrollHeight,
+        behavior: 'smooth'
+      });
     });
   }
   
+  
   onCreate() {
     this.props.context.on("msg", (msg: MessageInfo) => this.addMessage(msg));
+    this.props.context.on("error", () => this.addNote("An error occurred "));
   }
   
-  onRender() {
+  async onRender() {
     if (isMobileView()) {
-      window.addEventListener("scroll", (e: Event) => {
-        if (window.scrollY > 100) {
-          this.headerRef.addClasses('sticky');
-        } else {
-          this.headerRef.removeClasses('sticky');
-        }
+      window.addEventListener("scroll", () => {
+        const method = window.scrollY > 100 ? 'addClasses' : 'removeClasses';
+        this.headerRef[method]('sticky');
       });
     }
-    let context = this.props.context;
-    let messages = context.get("messages") !;
-    for (let msg of messages) {
+    
+    const ctx = this.props.context;
+    await ChatService.initChat(ctx, ctx.get("user") !);
+    for (let msg of ctx.get("messages") !) {
       this.addMessage(msg);
     }
+    
+    ChatService.listenMsg(ctx);
   }
   
+  
   onSendBtnClick() {
-    if(!this.messageRef.value) return;
-    let context = this.props.context;
-    ChatService.sendMsgText(
-      context,
-      context.get("user") !,
-      this.messageRef.value
-    );
-    this.messageRef.value="";
+    const msg = this.messageRef.value?.trim();
+    if (!msg) return;
+    
+    const ctx = this.props.context;
+    ChatService.sendMsgText(ctx, ctx.get("user") !, msg);
+    this.messageRef.value = "";
   }
   
   template() {
     return (
       <Fragment>
-        <div ref={this.headerRef} class="chatbox-header p-3 d-flex align-center ">
+        <div ref={this.headerRef} class="chatbox-header p-3 d-flex align-center">
           <h4>Chat</h4>
-          <button class="ml-auto btn btn-icon material-icons" >add</button>
+          <button class="ml-auto btn btn-icon material-icons">add</button>
         </div>
-        <div class="chatbox-contents p-3" ref={this.listMsg} />
-        <div class="chatbox-input d-flex flex-column align-center justify-between" >
+        
+        <div ref={this.listMsg} class="chatbox-contents p-3">
+          <span ref={this.emptyPlaceholder}>
+            <EmptyPlaceholder 
+              content="Everything is ready, let's start your conversation  " 
+              icon="forum"
+            />
+          </span>
+        </div>
+        <div class="chatbox-input d-flex flex-column align-center justify-between">
           <button class="btn btn-icon material-icons">add</button>
-          <input ref={this.messageRef} placeholder="Type message ..." type="text" class="form-input" />
-          <button on:click={()=> this.onSendBtnClick()} class="btn btn-icon material-icons">send</button>
+          <input ref={this.messageRef} type="text" class="form-input" placeholder="Type message ..." />
+          <button on:click={() => this.onSendBtnClick()} class="btn btn-icon material-icons">send</button>
         </div>
       </Fragment>
     );

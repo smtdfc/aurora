@@ -33,6 +33,7 @@
 </head>
 
 <body>
+
   <div id="root">
     <div class="loader" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center;">
       <div class="spinner-loader"></div>
@@ -44,7 +45,20 @@
       document.querySelector('.loader')?.remove();
     };
   </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\', '\']],
+        displayMath: [['$$', '$$'], ['\', '\']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
   <script type="module" src="./dist/index.min.js" defer></script>
+  
 </body>
 
 </html>
