@@ -27,9 +27,6 @@ export class Page extends RumiousComponent < RumiousRouterPageProps > {
     super();
   }
   
-  onRender(){
-  }
-  
   template() {
     return (
       <Fragment>

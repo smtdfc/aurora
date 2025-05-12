@@ -5,7 +5,6 @@ import { dirname } from 'path';
 import Fastify from 'fastify'
 import http from 'http'
 import initSocket from './socket/index.js';
-import 'aurora-ai-helper';
 
 
 const __filename = fileURLToPath(import.meta.url);
