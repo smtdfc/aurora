@@ -15,7 +15,9 @@ export class Page extends RumiousComponent < RumiousRouterPageProps > {
   private chatContext = createContext < ChatData > ({
     title:"Chat #1",
     messages:[],
-    objects:[],
+    canvas:{
+      mode:"text"
+    },
     user:{
       name:"User #1",
       id:Date.now().toString(32),

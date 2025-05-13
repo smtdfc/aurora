@@ -27,8 +27,67 @@ const model = initModel(
 
 export class SocketChatChannelHandler {
   static onChatInit(socket: Socket, data: any) {
-    socket.data.chat = createChat(model);
+    socket.data.chat = createChat(
+      model,
+      {
+        state: {
+          canvas: {
+            mode: "text"
+          }
+        },
+        onRequestWriteCanvas: async (contentType: string, content: string) => await SocketChatChannelHandler.onRequestWriteCanvas(socket, contentType, content),
+        onRequestReadCanvas: async () => await SocketChatChannelHandler.onRequestReadCanvas(socket),
+        onCanvasModeChange: (mode: string) => SocketChatChannelHandler.onCanvasModeChange(socket, mode)
+      }
+    );
     socket.emit('chat:init:success', {});
+  }
+  
+  static onRequestWriteCanvas(
+    socket: Socket,
+    contentType: string,
+    content: string
+  ): void {
+    if (!socket.data.chat) {
+       socket.emit('chat:send:error', {
+        message: "Something was wrong !"
+      });
+
+    } else {
+       socket.emit('chat:canvas:write', {
+        type: contentType,
+        content
+      });
+    }
+    return;
+  }
+  
+  
+  static onRequestReadCanvas(
+    socket: Socket
+  ): Promise < any > {
+    if (!socket.data.chat) {
+      socket.emit('chat:send:error', {
+        message: "Something was wrong !"
+      });
+    }
+    
+    return new Promise((rs, rj) => {
+      socket.on('chat:canvas:content', (content) => rs(content));
+      socket.emit('chat:canvas:read', {});
+    });
+  }
+  
+  static onCanvasModeChange(socket: Socket, mode: string) {
+    if (!socket.data.chat) {
+      socket.emit('chat:send:error', {
+        message: "Something was wrong !"
+      });
+    }
+    
+    socket.emit('chat:canvas:mode:change', {
+      mode
+    });
   }
   
   static onMsgSent(socket: Socket, data: MessageInfo) {
@@ -45,11 +104,11 @@ export class SocketChatChannelHandler {
         let reply: MessageInfo = {
           id: Date.now().toString(32),
           sender: {
-            id:"model",
-            name:"Aurora Assistant ",
-            role:"Model"
+            id: "model",
+            name: "Aurora Assistant ",
+            role: "Model"
           },
-          contents:[
+          contents: [
             response.text
           ]
         };

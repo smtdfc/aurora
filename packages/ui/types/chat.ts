@@ -1,4 +1,4 @@
-import {CanvasObject} from './canvas.js';
+import {CanvasObject,CanvasModes} from './canvas.js';
 import {UserInfo} from './user.js';
 
 export interface MessageInfo{
@@ -11,6 +11,9 @@ export interface MessageInfo{
 export interface ChatData{
   messages:MessageInfo[];
   title: string;
-  objects:CanvasObject[];
+  canvas:{
+    mode:CanvasModes,
+    value?:any
+  };
   user:UserInfo;
 }

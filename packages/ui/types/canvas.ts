@@ -1,4 +1,10 @@
-export type CanvasObjectTypes= "EXPRESSION" | "GRAPH";
+export type CanvasModes= "graphic" | "text";
 export interface CanvasObject{
-  type:CanvasObjectTypes;
+  id:string,
+  mode:CanvasModes;
 };
+
+export interface CanvasChangeCommit{
+  type:string,
+  content:string
+}

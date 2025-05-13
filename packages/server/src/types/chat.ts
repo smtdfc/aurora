@@ -1,4 +1,3 @@
-import { CanvasObject } from 'aurora-ai-helper';
 import { UserInfo } from './user.js';
 
 export interface MessageInfo {
@@ -11,6 +10,5 @@ export interface MessageInfo {
 export interface ChatData {
   messages: MessageInfo[];
   title: string;
-  objects: CanvasObject[];
   user: UserInfo;
 }
