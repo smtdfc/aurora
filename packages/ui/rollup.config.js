@@ -20,12 +20,16 @@ export default {
     entryFileNames: 'index.min.js',
     manualChunks(id) {
       if (id.includes('node_modules')) {
-        return 'vendor';
+        const dirs = id.split('node_modules/')[1].split('/');
+        const name = dirs[0].startsWith('@') ? `${dirs[0]}/${dirs[1]}` : dirs[0];
+        return `${name}`;
       }
     },
     chunkFileNames: (chunkInfo) => {
       if (chunkInfo.moduleIds.some(id => id.includes('node_modules'))) {
-        return 'vendor/[name].js';
+        return shouldMinify ?
+          'vendors/[hash]/index.min.js':
+          'vendors/[name].js';
       }
       return shouldMinify ?
         'chunks/[name]-[hash].js' :

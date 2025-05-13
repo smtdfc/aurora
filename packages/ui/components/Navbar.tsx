@@ -3,7 +3,7 @@ import { RumiousComponent } from 'rumious';
 interface NavbarProps {}
 
 export class Navbar extends RumiousComponent < NavbarProps > {
-  static tagName = "smtdfc-navbar";
+  static tagName = "aurora-navbar";
   
   onRender() {
     const navbar = this.element.querySelector('.navbar') as HTMLElement;

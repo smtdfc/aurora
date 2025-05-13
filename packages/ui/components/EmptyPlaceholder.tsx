@@ -5,7 +5,7 @@ interface EmptyPlaceholderProps{
   icon?: string 
 }
 export class EmptyPlaceholder extends RumiousComponent<EmptyPlaceholderProps> {
-  static tagName = "smtdfc-empty-placeholder";
+  static tagName = "aurora-empty-placeholder";
   
   template() {
     return (

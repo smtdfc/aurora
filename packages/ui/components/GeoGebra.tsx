@@ -5,7 +5,7 @@ import {AppContext} from '../context/app.js';
 interface GeoGebraProps {}
 
 export class GeoGebraLayoutComponent extends RumiousComponent < GeoGebraProps > {
-  static tagName = "smtdfc-ggb";
+  static tagName = "aurora-ggb";
   private geogebraLoaded = false;
 
   loadGeogebraApp() {
@@ -54,7 +54,7 @@ export class GeoGebraLayoutComponent extends RumiousComponent < GeoGebraProps > 
       <Fragment>
         <div class="header d-flex align-center p-3" >
           <h4>Canvas</h4>
-          <button on:click={()=>{document.querySelector("smtdfc-ggb")?.classList.remove("open")}} class="ml-auto btn btn-icon material-icons" >close </button>
+          <button on:click={()=>{document.querySelector("aurora-ggb")?.classList.remove("open")}} class="ml-auto btn btn-icon material-icons" >close </button>
         </div>
         <br/><br/>
         <div id="ggb-inject"/>

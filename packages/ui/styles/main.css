@@ -60,7 +60,7 @@
     gap: 10px;
   }
   
-  smtdfc-tool-card {
+  aurora-tool-card {
     width: 100%;
     box-sizing: border-box;
   }
@@ -80,7 +80,7 @@
     max-width: 100% !important;
   }
   
-  smtdfc-tool-card {
+  aurora-tool-card {
     width: 100%;
     margin: 0 !important;
     max-width: 100% !important;
@@ -128,14 +128,14 @@
   box-sizing: border-box;
 }
 
-smtdfc-chatbox,
-smtdfc-canvas {
+aurora-chatbox,
+aurora-canvas {
   display: block;
   box-sizing: border-box;
   
 }
 
-smtdfc-canvas {
+aurora-canvas {
   border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -150,7 +150,7 @@ smtdfc-canvas {
   white-space: normal;
 }
 
-.message-content ul{
+.message-content ul {
   padding-left: 3rem;
 }
 
@@ -159,16 +159,37 @@ smtdfc-canvas {
 }
 
 .message-content p {
-  margin:10px;
+  margin: 10px;
+}
+
+.open-canvas-btn {
+  display: none;
+}
+
+
+.modal .modal-overlay{
+  z-index: 1009!important;
+}
+
+.modal .modal-content{
+  z-index: 1010 !important;
+}
+
+aurora-canvas-text-editor{
+  display: block!important;
 }
 
 @media (max-width: 48rem) {
+  
+  .open-canvas-btn {
+    display: block;
+  }
   
   .panel {
     display: block;
   }
   
-  smtdfc-canvas {
+  aurora-canvas {
     position: fixed;
     top: 0;
     left: 0;
@@ -180,15 +201,15 @@ smtdfc-canvas {
     transition: transform 0.3s ease-in-out;
   }
   
-  smtdfc-canvas.open {
+  aurora-canvas.open {
     transform: translateX(0%);
   }
   
-  smtdfc-chatbox .chatbox-contents {
+  aurora-chatbox .chatbox-contents {
     padding-bottom: 5rem !important;
   }
   
-  smtdfc-chatbox .chatbox-input {
+  aurora-chatbox .chatbox-input {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -199,7 +220,7 @@ smtdfc-canvas {
     height: 54px;
   }
   
-  smtdfc-chatbox .chatbox-header.sticky {
+  aurora-chatbox .chatbox-header.sticky {
     position: relative !important;
     top: 1rem;
   }
@@ -209,35 +230,36 @@ smtdfc-canvas {
   .panel {
     max-height: 90vh;
     overflow-y: hidden;
+    z-index: 1 !important;
   }
   
   .panel>.content {
     width: 50vw !important;
   }
   
-  smtdfc-chatbox,
-  smtdfc-canvas {
-    max-height: 90vh;
+  aurora-chatbox,
+  aurora-canvas {
+    max-height: 90vh; 
     display: flex;
     flex-direction: column;
   }
   
-  smtdfc-chatbox>.chatbox-header,
-  smtdfc-canvas>.canvas-header {
+  aurora-chatbox>.chatbox-header,
+  aurora-canvas>.canvas-header {
     position: sticky;
     top: 0;
     background: #fff;
-    z-index: 1;
+    z-index: 1 !important;
   }
   
-  smtdfc-chatbox .chatbox-contents,
-  smtdfc-canvas>.canvas-contents {
+  aurora-chatbox .chatbox-contents,
+  aurora-canvas>.canvas-contents {
     height: 90vh;
     flex-grow: 1;
     overflow-y: auto;
   }
   
-  smtdfc-chatbox .chatbox-input {
+  aurora-chatbox .chatbox-input {
     flex-shrink: 0;
     height: 50px;
     border-top: 1px solid #ddd;

@@ -16,7 +16,7 @@ interface ChatBoxProps {
 }
 
 export class ChatBox extends RumiousComponent < ChatBoxProps > {
-  static tagName = "smtdfc-chatbox";
+  static tagName = "aurora-chatbox";
   
   private headerRef = createElementRef();
   private listMsg = createElementRef();
@@ -63,7 +63,7 @@ export class ChatBox extends RumiousComponent < ChatBoxProps > {
     requestAnimationFrame(() => {
       const el = isMobileView() ? window : this.listMsg.target;
       el.scrollTo({
-        top: el === window ? document.documentElement.scrollHeight : el.scrollHeight,
+        top: el === window ? document.documentElement.scrollHeight : (el as HTMLElement).scrollHeight,
         behavior: 'smooth'
       });
     });
@@ -107,7 +107,10 @@ export class ChatBox extends RumiousComponent < ChatBoxProps > {
       <Fragment>
         <div ref={this.headerRef} class="chatbox-header p-3 d-flex align-center">
           <h4>Chat</h4>
-          <button class="ml-auto btn btn-icon material-icons">add</button>
+          <span class="ml-auto  d-flex align-center">
+            <button class="ml-auto btn btn-icon material-icons">add</button>
+            <button class="ml-auto open-canvas-btn btn btn-icon material-icons" on:click={()=> this.props.context.emit("canvas:open",null)}>menu_open</button>
+          </span>
         </div>
         
         <div ref={this.listMsg} class="chatbox-contents p-3">
