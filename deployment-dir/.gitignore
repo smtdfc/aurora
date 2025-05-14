@@ -1,0 +1,8 @@
+node_modules/**
+node_modules
+dist
+bundles
+.rollup.cache.json
+test
+.env
+public/styles/**

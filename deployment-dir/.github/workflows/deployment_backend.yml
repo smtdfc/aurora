@@ -14,21 +14,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy source code to deployment branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/smtdfc/aurora.git
+          git fetch origin deployment
+          git worktree add deployment-dir deployment
 
-          git fetch origin backend_deploy
-          git worktree add deployment-dir backend_deploy
-
-          rsync -av --delete --exclude='.git' --exclude='packages/ui' --exclude='public' --exclude='node_modules' ./ deployment-dir/
+          rsync -av --delete --exclude='packages/ui' ./ deployment-dir/
 
           cd deployment-dir
           git add .
           git commit -m "Deploy server source from main at $(date)" || echo "Nothing to commit"
-          git push origin HEAD:backend_deploy
+          git push origin HEAD:deployment
