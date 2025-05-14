@@ -37,7 +37,7 @@ jobs:
       
           sleep 1
       
-          rsync -av --delete public/ deployment-dir/
+          rsync -av   --exclude='deployment-dir' --delete public/ deployment-dir/
       
           cd deployment-dir
           git add .
