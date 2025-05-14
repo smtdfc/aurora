@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy-server:
+  deploy-client:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,30 +25,35 @@ jobs:
           cd packages/ui
           rollup -c
           cd ../../
-          
-      - name: Deploy source code to deployment branch
+
+      - name: Deploy public/ to frontend_deploy
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
+
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/smtdfc/aurora.git
-          git pull origin frontend_deploy --rebase
+          git fetch origin frontend_deploy
 
           # Add the deployment branch as a worktree
           git worktree add deployment-dir frontend_deploy
-          
-          # Sync the built files to the deployment directory
-          rsync -av --delete \
-            --exclude='.git' \
-            --exclude='packages' \
-            --exclude='node_modules' \
-            --exclude='deployment-dir' \
-            --exclude='.github' \
-            ./public/
+
+          # Clean old deployment files
+          rm -rf deployment-dir/*
+
+          # Copy built files to deployment dir
+          rsync -av --delete ./public/ deployment-dir/
+
+          cd deployment-dir
 
           # Stage and commit changes if any
           git add .
-          git commit -m "Deploy client from main at $(date)" || echo "No changes to commit"
+          if ! git diff --cached --quiet; then
+            git commit -m "Deploy client from main at $(date)"
+            git push origin HEAD:frontend_deploy
+          else
+            echo "No changes to deploy"
+          fi
 
-          # Push changes to the frontend_deploy branch
-          git push origin HEAD:frontend_deploy
+          # Cleanup worktree
+          cd ..
+          git worktree remove deployment-dir
