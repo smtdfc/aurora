@@ -24,7 +24,7 @@ jobs:
           git fetch origin backend_deploy
           git worktree add deployment-dir backend_deploy
 
-          rsync -av --delete --exclude='packages/ui' --exclude='public' --exclude='node_modules' ./ deployment-dir/
+          rsync -av --delete --exclude='.git' --exclude='packages/ui' --exclude='public' --exclude='node_modules' ./ deployment-dir/
 
           cd deployment-dir
           git add .
