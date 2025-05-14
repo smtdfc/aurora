@@ -24,6 +24,5 @@ function build_package() {
 
 build_package "./packages/ai" "npm run build"
 build_package "./packages/server" "npm run build"
-build_package "./packages/ui" "npm run build:all"
 
 echo -e "${GREEN}✓ All builds completed successfully.${NC}"
