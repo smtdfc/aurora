@@ -23,6 +23,7 @@ jobs:
         run: |
           npm install 
           cd packages/ui
+          npm install 
           rollup -c
           npm run style
           cd ../../
