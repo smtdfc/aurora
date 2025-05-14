@@ -41,7 +41,7 @@ jobs:
           rm -rf deployment-dir/*
 
           # Copy built files to deployment dir
-          rsync -av --delete ./public/ deployment-dir/
+          rsync -av --exclude='.git' --delete ./public/ deployment-dir/
 
           cd deployment-dir
 
