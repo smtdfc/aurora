@@ -14,7 +14,7 @@ const shouldMinify = process.env.MINIFY === 'true' || process.env.NODE_ENV === '
 export default {
   input: './index.tsx',
   output: {
-    dir: process.env.DIST,
+    dir: process.env.DIST || "../../public/dist",
     format: 'esm',
     sourcemap: !shouldMinify,
     entryFileNames: 'index.min.js',
