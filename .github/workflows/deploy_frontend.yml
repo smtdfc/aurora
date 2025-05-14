@@ -39,7 +39,9 @@ jobs:
           # Pull the latest changes from the remote branch to avoid non-fast-forward error
           cd deployment-dir
           git pull origin frontend_deploy --rebase
-
+          
+          cd ../
+          
           # Sync the built files to the deployment directory
           rsync -av --delete ./public/ deployment-dir/
 
