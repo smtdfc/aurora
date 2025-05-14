@@ -21,11 +21,10 @@ Before getting started, ensure you have Node.js and npm installed.
 npm install
 ```
 
-## Build the UI
+## Build 
 
 ```bash
-cd ./ui
-npm run build:all
+npm run build
 ```
 
 
@@ -35,23 +34,10 @@ npm run build:all
 
 Start the backend server from the root directory:
 ```bash
-cd ./server
-npm start
+npm run server 
 ```
 
 This will spin up the API and any AI processing services needed.
-
----
-
-
-## Project Structure
-```
-.
-├── public       # Static assets
-├── server       # Backend code (API, etc.)
-├── ui           # Frontend Rumious app
-└── .gitignore   # Git ignore rules
-```
 
 ---
 
