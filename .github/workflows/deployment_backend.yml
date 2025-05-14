@@ -28,6 +28,7 @@ jobs:
 
           rsync -av --delete \
             --exclude='.git' \
+            --exclude='.github' \
             --exclude='packages/ui' \
             --exclude='public' \
             --exclude='node_modules' \
