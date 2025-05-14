@@ -15,7 +15,12 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_TOKEN }}
-
+      - name: Build
+        run: |
+          npm install
+          cd packages/ui
+          rollup -c
+          
       - name: Deploy source code to deployment branch
         run: |
           git config user.name "github-actions[bot]"
@@ -23,19 +28,18 @@ jobs:
 
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/smtdfc/aurora.git
 
-          git fetch origin backend_deploy
-          git worktree add deployment-dir backend_deploy
+          git fetch origin frontend_deploy
+          git worktree add deployment-dir frontend_deploy
 
           rsync -av --delete \
             --exclude='.git' \
             --exclude='packages/ui' \
-            --exclude='public' \
             --exclude='node_modules' \
             --exclude='deployment-dir' \
             --exclude='.github' \
-            ./ deployment-dir/
+            ./ public/
 
           cd deployment-dir
           git add .
           git commit -m "Deploy server source from main at $(date)" || echo "Nothing to commit"
-          git push origin HEAD:backend_deploy
+          git push origin HEAD:frontend_deploy
