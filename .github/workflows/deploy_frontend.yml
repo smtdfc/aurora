@@ -43,7 +43,13 @@ jobs:
           cd ../
           
           # Sync the built files to the deployment directory
-          rsync -av --delete ./public/ deployment-dir/
+          rsync -av --delete \
+            --exclude='.git' \
+            --exclude='packages' \
+            --exclude='node_modules' \
+            --exclude='deployment-dir' \
+            --exclude='.github' \
+            ./public/
 
           # Stage and commit changes if any
           git add .
