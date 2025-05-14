@@ -1,4 +1,4 @@
-name: Deploy server source to deployment branch
+name: Deploy client source to deployment branch
 
 on:
   push:
@@ -15,12 +15,16 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_TOKEN }}
+
+      - name: Install Rollup
+        run: npm install -g rollup
+
       - name: Build
         run: |
-          npm install
+          npm install 
           cd packages/ui
           rollup -c
-          
+
       - name: Deploy source code to deployment branch
         run: |
           git config user.name "github-actions[bot]"
