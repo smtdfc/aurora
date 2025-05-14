@@ -29,17 +29,22 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-      
+          
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/smtdfc/aurora.git
-      
-          git fetch origin frontend_deploy
+          
+          # Add the deployment branch as a worktree
           git worktree add deployment-dir frontend_deploy
-      
-          sleep 1
-      
-          rsync -av   --exclude='deployment-dir' --delete public/ deployment-dir/
-      
+
+          # Pull the latest changes from the remote branch to avoid non-fast-forward error
           cd deployment-dir
+          git pull origin frontend_deploy --rebase
+
+          # Sync the built files to the deployment directory
+          rsync -av --delete public/ deployment-dir/
+
+          # Stage and commit changes if any
           git add .
-          git commit -m "Deploy client from main at $(date)" || echo "Nothing to commit"
+          git commit -m "Deploy client from main at $(date)" || echo "No changes to commit"
+
+          # Push changes to the frontend_deploy branch
           git push origin HEAD:frontend_deploy
