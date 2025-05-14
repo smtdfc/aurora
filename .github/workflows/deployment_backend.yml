@@ -21,12 +21,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git fetch origin deployment
-          git worktree add deployment-dir deployment
+          git fetch origin backend_deploy
+          git worktree add deployment-dir backend_deploy
 
           rsync -av --delete --exclude='packages/ui' ./ deployment-dir/
 
           cd deployment-dir
           git add .
           git commit -m "Deploy server source from main at $(date)" || echo "Nothing to commit"
-          git push origin HEAD:deployment
+          git push origin HEAD:backend_deploy
