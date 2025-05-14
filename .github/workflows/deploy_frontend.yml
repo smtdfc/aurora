@@ -29,21 +29,17 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
+      
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/smtdfc/aurora.git
-
+      
           git fetch origin frontend_deploy
           git worktree add deployment-dir frontend_deploy
-
-          rsync -av --delete \
-            --exclude='.git' \
-            --exclude='packages/ui' \
-            --exclude='node_modules' \
-            --exclude='deployment-dir' \
-            --exclude='.github' \
-            ./ public/
-
+      
+          sleep 1
+      
+          rsync -av --delete public/ deployment-dir/
+      
           cd deployment-dir
           git add .
-          git commit -m "Deploy server source from main at $(date)" || echo "Nothing to commit"
+          git commit -m "Deploy client from main at $(date)" || echo "Nothing to commit"
           git push origin HEAD:frontend_deploy
