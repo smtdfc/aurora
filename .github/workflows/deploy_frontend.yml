@@ -32,15 +32,10 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/smtdfc/aurora.git
-          
+          git pull origin frontend_deploy --rebase
+
           # Add the deployment branch as a worktree
           git worktree add deployment-dir frontend_deploy
-
-          # Pull the latest changes from the remote branch to avoid non-fast-forward error
-          cd deployment-dir
-          git pull origin frontend_deploy --rebase
-          
-          cd ../
           
           # Sync the built files to the deployment directory
           rsync -av --delete \
