@@ -13,7 +13,7 @@
 		"test": "echo \"No tests yet\""
 	},
 	"dependencies": {
-		"lightiz-ui": "^0.0.3",
+		"lightiz-ui": "^0.0.5",
 		"rumious": "*",
 		"rumious-router": "^1.0.0",
 		"socket.io-client": "^4.8.1"
