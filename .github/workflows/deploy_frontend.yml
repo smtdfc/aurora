@@ -24,6 +24,7 @@ jobs:
           npm install 
           cd packages/ui
           rollup -c
+          npm run style
           cd ../../
 
       - name: Deploy public/ to frontend_deploy
