@@ -39,8 +39,12 @@ jobs:
           cd deployment-dir
           git pull origin frontend_deploy --rebase
 
+          # Ensure the public directory exists
+          echo "Listing public directory:"
+          ls -alh public/
+
           # Sync the built files to the deployment directory
-          rsync -av --delete public/ deployment-dir/
+          rsync -av --delete deployment-dir/public/ deployment-dir/
 
           # Stage and commit changes if any
           git add .
