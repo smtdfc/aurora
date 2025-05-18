@@ -1,7 +1,9 @@
 import dotenv from "dotenv";
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname ,join} from 'path';
+import { writeFile, mkdir } from "fs/promises";
+
 import { Socket } from 'socket.io';
 import {
   initModel,
@@ -24,6 +26,29 @@ if (!process.env.GOOGLE_API_KEY) {
 const model = initModel(
   process.env.GOOGLE_API_KEY
 );
+
+
+export async function saveBase64File(
+  base64Data: string,
+  filename: string,
+  outputDir = "./uploads"
+): Promise < string > {
+  const matches = base64Data.match(/^data:(.+);base64,(.+)$/);
+  if (!matches) throw new Error("Chuỗi base64 không hợp lệ");
+  
+  const buffer = Buffer.from(matches[2], "base64");
+  
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  
+  const fullOutputDir = join(__dirname, outputDir);
+  const filepath = join(fullOutputDir, filename);
+  
+  await mkdir(fullOutputDir, { recursive: true });
+  await writeFile(filepath, buffer);
+  
+  return filepath;
+}
 
 export class SocketChatChannelHandler {
   static onChatInit(socket: Socket, data: any) {
@@ -90,15 +115,26 @@ export class SocketChatChannelHandler {
     });
   }
   
-  static onMsgSent(socket: Socket, data: MessageInfo) {
+  static async onMsgSent(socket: Socket, data: MessageInfo) {
     if (!socket.data.chat) {
       socket.emit('chat:send:error', {
         message: "Something was wrong !"
       });
     }
+    let fileAttached: string[] = []
     
+    if(data.image){
+      console.log("Image uploaded");
+      fileAttached.push(await saveBase64File(
+        data.image,
+        Date.now().toString(32)+".png"
+      ))
+    }
+    
+    console.log(fileAttached);
     socket.data.chat.send({
-        prompt: data.contents.join("\n")
+        prompt: data.contents.join("\n"),
+        images:fileAttached
       })
       .then((response: any) => {
         let reply: MessageInfo = {

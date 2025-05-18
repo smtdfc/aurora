@@ -167,16 +167,23 @@ aurora-canvas {
 }
 
 
-.modal .modal-overlay{
-  z-index: 1009!important;
+.modal .modal-overlay {
+  z-index: 1009 !important;
 }
 
-.modal .modal-content{
+.modal .modal-content {
   z-index: 1010 !important;
 }
 
-aurora-canvas-text-editor{
-  display: block!important;
+aurora-canvas-text-editor {
+  display: block !important;
+}
+
+.attached-preview img {
+  max-width: 80px;
+  max-height: 80px;
+  border-radius: 20px;
+  padding: 0 5px;
 }
 
 @media (max-width: 48rem) {
@@ -217,8 +224,13 @@ aurora-canvas-text-editor{
     padding: 5px;
     background: white;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
-    height: 54px;
+    min-height: 54px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
+  
+  
   
   aurora-chatbox .chatbox-header.sticky {
     position: relative !important;
@@ -237,9 +249,15 @@ aurora-canvas-text-editor{
     width: 50vw !important;
   }
   
-  aurora-chatbox,
+  
   aurora-canvas {
-    max-height: 90vh; 
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  aurora-chatbox {
+    max-height: 90vh;
     display: flex;
     flex-direction: column;
   }
@@ -252,9 +270,14 @@ aurora-canvas-text-editor{
     z-index: 1 !important;
   }
   
-  aurora-chatbox .chatbox-contents,
   aurora-canvas>.canvas-contents {
     height: 90vh;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  aurora-chatbox .chatbox-contents {
+    height: 75vh;
     flex-grow: 1;
     overflow-y: auto;
   }

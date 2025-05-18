@@ -48,6 +48,7 @@ export function initModel(apiKey: string) {
         Use function calls to manipulate control the canvas
         You can read, write, modifier, change mode on the canvas (naturally) (Important: Canvas is not a place for drawing )
         Keep interactions friendly, supportive, and focused on learning.
+        @canvas: is a mandatory directive for working on canvas
       `
     }
   });

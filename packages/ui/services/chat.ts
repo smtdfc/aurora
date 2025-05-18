@@ -51,21 +51,23 @@ export class ChatService {
       this.changeCanvas(context, mode);
     });
     
-    SocketService.listen("chat:canvas:read", () => context.emit("canvas:read",{}));
-SocketService.listen("chat:canvas:write", (commit:CanvasChangeCommit) => context.emit("canvas:write",commit));
-
-    context.on('canvas:content',(data: any)=> SocketService.sendMsg('chat:canvas:content',data))
+    SocketService.listen("chat:canvas:read", () => context.emit("canvas:read", {}));
+    SocketService.listen("chat:canvas:write", (commit: CanvasChangeCommit) => context.emit("canvas:write", commit));
+    
+    context.on('canvas:content', (data: any) => SocketService.sendMsg('chat:canvas:content', data))
   }
   
   static async sendMsgText(
     context: RumiousContext < ChatData > ,
     sender: UserInfo,
-    text: string | string[]
+    text: string | string[],
+    image:string | null = null
   ): Promise < boolean > {
     const chatData = {
       id: Date.now().toString(32),
       sender,
-      contents: typeof text === 'string' ? [text] : text
+      contents: typeof text === 'string' ? [text] : text,
+      image
     };
     
     context.get('messages') !.push(chatData);

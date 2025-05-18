@@ -6,6 +6,8 @@ import {
   RumiousContext
 } from 'rumious';
 import { EmptyPlaceholder } from './EmptyPlaceholder.jsx'
+import { TakePhotoModal } from './TakePhotoModal.jsx'
+
 import { MessageInfo, ChatData } from '../types/index.js';
 import { ChatService } from '../services/chat.js';
 
@@ -20,8 +22,10 @@ export class ChatBox extends RumiousComponent < ChatBoxProps > {
   
   private headerRef = createElementRef();
   private listMsg = createElementRef();
+  private attachedContentRef = createElementRef();
   private messageRef = createElementRef();
   private emptyPlaceholder = createElementRef();
+  private attachedContents = [];
   constructor() {
     super();
   }
@@ -59,6 +63,13 @@ export class ChatBox extends RumiousComponent < ChatBoxProps > {
     this.scrollToBottom();
   }
   
+  takePhoto() {
+    this.warp(
+      <TakePhotoModal context={this.props.context}/>,
+      document.body
+    );
+  }
+  
   scrollToBottom() {
     requestAnimationFrame(() => {
       const el = isMobileView() ? window : this.listMsg.target;
@@ -69,10 +80,17 @@ export class ChatBox extends RumiousComponent < ChatBoxProps > {
     });
   }
   
+  attachedImage(data: any) {
+    this.attachedContents.push(data);
+    this.attachedContentRef.addChild(this.render(
+      <img src={data}/>
+    ))
+  }
   
   onCreate() {
     this.props.context.on("msg", (msg: MessageInfo) => this.addMessage(msg));
     this.props.context.on("error", () => this.addNote("An error occurred "));
+    this.props.context.on("chat:input:attach:image", (data: any) => this.attachedImage(data));
   }
   
   async onRender() {
@@ -98,8 +116,14 @@ export class ChatBox extends RumiousComponent < ChatBoxProps > {
     if (!msg) return;
     
     const ctx = this.props.context;
-    ChatService.sendMsgText(ctx, ctx.get("user") !, msg);
+    ChatService.sendMsgText(
+      ctx, 
+      ctx.get("user") !,
+      msg,
+      this.attachedContents[0] as string
+    );
     this.messageRef.value = "";
+    this.attachedContentRef.text = ""
   }
   
   template() {
@@ -108,6 +132,7 @@ export class ChatBox extends RumiousComponent < ChatBoxProps > {
         <div ref={this.headerRef} class="chatbox-header p-3 d-flex align-center">
           <h4>Chat</h4>
           <span class="ml-auto  d-flex align-center">
+            <button on:click={()=> this.takePhoto()}class="ml-auto btn btn-icon material-icons">add_a_photo</button>
             <button class="ml-auto btn btn-icon material-icons">add</button>
             <button class="ml-auto open-canvas-btn btn btn-icon material-icons" on:click={()=> this.props.context.emit("canvas:open",null)}>menu_open</button>
           </span>
@@ -121,12 +146,15 @@ export class ChatBox extends RumiousComponent < ChatBoxProps > {
             />
           </span>
         </div>
-        <div class="chatbox-input d-flex flex-column align-center justify-between">
-          <button class="btn btn-icon material-icons">add</button>
-          <input ref={this.messageRef} type="text" class="form-input" placeholder="Type message ..." />
-          <button on:click={() => this.onSendBtnClick()} class="btn btn-icon material-icons">send</button>
+        <div class="chatbox-input p-2">
+          <div class="attached-preview" ref={this.attachedContentRef} class="attached-preview mb-2"></div>
+          <div class="input-bar d-flex align-center gap-2">
+            <button on:click={()=> this.takePhoto()} class="btn btn-icon material-icons">add</button>
+            <input ref={this.messageRef} type="text" class="form-input flex-1" placeholder="Type message ..." />
+            <button on:click={() => this.onSendBtnClick()} class="btn btn-icon material-icons">send</button>
+          </div>
         </div>
-      </Fragment>
+    </Fragment>
     );
   }
 }
