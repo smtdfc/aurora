@@ -10,7 +10,7 @@ import '../vendors/socket.io-parser.js';
 class EmptyPlaceholder extends s {
   static tagName = "aurora-empty-placeholder";
   template() {
-    return window.RUMIOUS_JSX.template(function (_rumious_root_89c1bf11, _rumious_ctx_57786ab9) {
+    return window.RUMIOUS_JSX.template(function (_rumious_root_1dda6cea, _rumious_ctx_22f3049a) {
       const _rumious_el = document.createElement("div");
       _rumious_el.setAttribute("class", "empty-state d-flex flex-col align-center justify-center p-4 text-muted");
       _rumious_el.appendChild(document.createTextNode("\n        "));
@@ -19,17 +19,17 @@ class EmptyPlaceholder extends s {
       _rumious_el2.setAttribute("style", "font-size: 48px;");
       const _rumious_dymanic_ = document.createTextNode("");
       _rumious_el2.appendChild(_rumious_dymanic_);
-      window.RUMIOUS_JSX.dynamicValue(_rumious_el2, _rumious_dymanic_, this.props.icon ?? "inbox", _rumious_ctx_57786ab9);
+      window.RUMIOUS_JSX.dynamicValue(_rumious_el2, _rumious_dymanic_, this.props.icon ?? "inbox", _rumious_ctx_22f3049a);
       _rumious_el.appendChild(_rumious_el2);
       _rumious_el.appendChild(document.createTextNode("\n        "));
       const _rumious_el3 = document.createElement("p");
       const _rumious_dymanic_2 = document.createTextNode("");
       _rumious_el3.appendChild(_rumious_dymanic_2);
-      window.RUMIOUS_JSX.dynamicValue(_rumious_el3, _rumious_dymanic_2, this.props.content ?? "No content here", _rumious_ctx_57786ab9);
+      window.RUMIOUS_JSX.dynamicValue(_rumious_el3, _rumious_dymanic_2, this.props.content ?? "No content here", _rumious_ctx_22f3049a);
       _rumious_el.appendChild(_rumious_el3);
       _rumious_el.appendChild(document.createTextNode("\n      "));
-      _rumious_root_89c1bf11.appendChild(_rumious_el);
-      return _rumious_root_89c1bf11;
+      _rumious_root_1dda6cea.appendChild(_rumious_el);
+      return _rumious_root_1dda6cea;
     });
   }
 }
@@ -90,11 +90,12 @@ class ChatService {
     SocketService.listen("chat:canvas:write", commit => context.emit("canvas:write", commit));
     context.on('canvas:content', data => SocketService.sendMsg('chat:canvas:content', data));
   }
-  static async sendMsgText(context, sender, text) {
+  static async sendMsgText(context, sender, text, image = null) {
     const chatData = {
       id: Date.now().toString(32),
       sender,
-      contents: typeof text === 'string' ? [text] : text
+      contents: typeof text === 'string' ? [text] : text,
+      image
     };
     context.get('messages').push(chatData);
     context.emit('msg', chatData);
@@ -130,12 +131,12 @@ class SelectCanvasModeModal extends s {
     this.closeModal();
   }
   template() {
-    return window.RUMIOUS_JSX.template(function (_rumious_root_110c3b9f, _rumious_ctx_a7be77c3) {
+    return window.RUMIOUS_JSX.template(function (_rumious_root_2c8d6227, _rumious_ctx_41fe4a9f) {
       const _rumious_frag = document.createDocumentFragment();
       _rumious_frag.appendChild(document.createTextNode("\n        "));
       const _rumious_el = document.createElement("div");
       _rumious_el.setAttribute("class", "modal");
-      window.RUMIOUS_JSX.addDirective(_rumious_el, _rumious_ctx_a7be77c3, "ref", "standalone", this.modalRef);
+      window.RUMIOUS_JSX.addDirective(_rumious_el, _rumious_ctx_41fe4a9f, "ref", "standalone", this.modalRef);
       _rumious_el.appendChild(document.createTextNode("\n          "));
       const _rumious_el2 = document.createElement("div");
       _rumious_el2.setAttribute("class", "modal-content");
@@ -149,7 +150,7 @@ class SelectCanvasModeModal extends s {
       _rumious_el3.appendChild(_rumious_el4);
       _rumious_el3.appendChild(document.createTextNode("\n              "));
       const _rumious_el5 = document.createElement("button");
-      window.RUMIOUS_JSX.addDirective(_rumious_el5, _rumious_ctx_a7be77c3, "on", "click", () => this.closeModal());
+      window.RUMIOUS_JSX.addDirective(_rumious_el5, _rumious_ctx_41fe4a9f, "on", "click", () => this.closeModal());
       _rumious_el5.setAttribute("class", "ml-auto btn btn-icon material-icons");
       _rumious_el5.appendChild(document.createTextNode("close"));
       _rumious_el3.appendChild(_rumious_el5);
@@ -169,19 +170,19 @@ class SelectCanvasModeModal extends s {
       _rumious_el7.appendChild(document.createTextNode("\n                "));
       const _rumious_el9 = document.createElement("select");
       _rumious_el9.setAttribute("class", "form-select");
-      window.RUMIOUS_JSX.addDirective(_rumious_el9, _rumious_ctx_a7be77c3, "model", "standalone", this.currentType);
+      window.RUMIOUS_JSX.addDirective(_rumious_el9, _rumious_ctx_41fe4a9f, "model", "standalone", this.currentType);
       _rumious_el9.appendChild(document.createTextNode("\n                  "));
       const _rumious_dymanic_ = document.createTextNode("");
       _rumious_el9.appendChild(_rumious_dymanic_);
-      window.RUMIOUS_JSX.dynamicValue(_rumious_el9, _rumious_dymanic_, Object.entries(CANVAS_MODES).map(([key, label]) => window.RUMIOUS_JSX.template(function (_rumious_root_8d7fd677, _rumious_ctx_8705375b) {
+      window.RUMIOUS_JSX.dynamicValue(_rumious_el9, _rumious_dymanic_, Object.entries(CANVAS_MODES).map(([key, label]) => window.RUMIOUS_JSX.template(function (_rumious_root_95a2adf1, _rumious_ctx_733c194e) {
         const _rumious_el13 = document.createElement("option");
         _rumious_el13.setAttribute("value", key);
         const _rumious_dymanic_2 = document.createTextNode("");
         _rumious_el13.appendChild(_rumious_dymanic_2);
-        window.RUMIOUS_JSX.dynamicValue(_rumious_el13, _rumious_dymanic_2, label, _rumious_ctx_8705375b);
-        _rumious_root_8d7fd677.appendChild(_rumious_el13);
-        return _rumious_root_8d7fd677;
-      })), _rumious_ctx_a7be77c3);
+        window.RUMIOUS_JSX.dynamicValue(_rumious_el13, _rumious_dymanic_2, label, _rumious_ctx_733c194e);
+        _rumious_root_95a2adf1.appendChild(_rumious_el13);
+        return _rumious_root_95a2adf1;
+      })), _rumious_ctx_41fe4a9f);
       _rumious_el9.appendChild(document.createTextNode("\n                "));
       _rumious_el7.appendChild(_rumious_el9);
       _rumious_el7.appendChild(document.createTextNode("\n              "));
@@ -196,7 +197,7 @@ class SelectCanvasModeModal extends s {
       _rumious_el11.setAttribute("class", "modal-footer p-5");
       _rumious_el11.appendChild(document.createTextNode("\n              "));
       const _rumious_el12 = document.createElement("button");
-      window.RUMIOUS_JSX.addDirective(_rumious_el12, _rumious_ctx_a7be77c3, "on", "click", () => this.onDoneBtnClick());
+      window.RUMIOUS_JSX.addDirective(_rumious_el12, _rumious_ctx_41fe4a9f, "on", "click", () => this.onDoneBtnClick());
       _rumious_el12.setAttribute("class", "ml-auto btn btn-primary");
       _rumious_el12.appendChild(document.createTextNode("Done"));
       _rumious_el11.appendChild(_rumious_el12);
@@ -207,8 +208,8 @@ class SelectCanvasModeModal extends s {
       _rumious_el.appendChild(document.createTextNode("\n        "));
       _rumious_frag.appendChild(_rumious_el);
       _rumious_frag.appendChild(document.createTextNode("\n      "));
-      _rumious_root_110c3b9f.appendChild(_rumious_frag);
-      return _rumious_root_110c3b9f;
+      _rumious_root_2c8d6227.appendChild(_rumious_frag);
+      return _rumious_root_2c8d6227;
     });
   }
 }
@@ -217,40 +218,78 @@ class CanvasTextEditor extends s {
   static tagName = "aurora-canvas-text-editor";
   currentState = y("User edited");
   textAreaRef = g();
+  easyMDEInstance = null;
   constructor() {
     super();
   }
-  onRender() {
-    let context = this.props.context;
-    context.on('canvas:read', () => {
-      let time = new Date().toISOString();
-      this.currentState.set(`Model readed - Last time: ${time}`);
-      context.emit('canvas:content', this.textAreaRef.text);
+  injectCDNAssets() {
+    return new Promise(resolve => {
+      if (!document.querySelector('#easymde-css')) {
+        const link = document.createElement('link');
+        link.id = 'easymde-css';
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/easymde/dist/easymde.min.css';
+        document.head.appendChild(link);
+      }
+      if (!document.querySelector('#easymde-js')) {
+        const script = document.createElement('script');
+        script.id = 'easymde-js';
+        script.src = 'https://unpkg.com/easymde/dist/easymde.min.js';
+        script.onload = () => resolve();
+        document.head.appendChild(script);
+      } else {
+        resolve();
+      }
     });
-    context.on('canvas:write', commit => {
-      let time = new Date().toISOString();
+  }
+  async initEditor() {
+    await this.injectCDNAssets();
+    this.easyMDEInstance = new window.EasyMDE({
+      element: this.textAreaRef.value,
+      spellChecker: false,
+      toolbar: ["bold", "italic", "heading", "|", "quote", "code", "link", "preview"],
+      minHeight: "300px",
+      autoDownloadFontAwesome: false
+    });
+  }
+  onRender() {
+    const context = this.props.context;
+    context.on('canvas:read', async () => {
+      await this.initEditor();
+      const time = new Date().toISOString();
+      this.currentState.set(`Model readed - Last time: ${time}`);
+      const content = this.easyMDEInstance?.value?.() || this.textAreaRef.value?.value || '';
+      context.emit('canvas:content', content);
+    });
+    context.on('canvas:write', async commit => {
+      await this.initEditor();
+      const time = new Date().toISOString();
       this.currentState.set(`Model edited - Last time: ${time}`);
-      this.textAreaRef.text = commit.content;
+      if (this.easyMDEInstance) {
+        this.easyMDEInstance.value(commit.content);
+      } else {
+        this.textAreaRef.text = commit.content;
+      }
     });
   }
   onTextInputChange() {
-    let time = new Date().toISOString();
+    const time = new Date().toISOString();
     this.currentState.set(`User edited - Last time: ${time}`);
   }
   template() {
-    return window.RUMIOUS_JSX.template(function (_rumious_root_08694c04, _rumious_ctx_83f78419) {
+    return window.RUMIOUS_JSX.template(function (_rumious_root_3237bb6d, _rumious_ctx_3e2abae1) {
       const _rumious_frag = document.createDocumentFragment();
       _rumious_frag.appendChild(document.createTextNode("\n        "));
       const _rumious_el = document.createElement("span");
       _rumious_el.setAttribute("class", "p-3");
       _rumious_el.appendChild(document.createTextNode("\n          "));
       const _rumious_el2 = document.createElement("h5");
-      _rumious_el2.appendChild(document.createTextNode("Text editor "));
+      _rumious_el2.appendChild(document.createTextNode("Text editor"));
       _rumious_el.appendChild(_rumious_el2);
       _rumious_el.appendChild(document.createTextNode("\n          "));
       const _rumious_el3 = document.createElement("span");
       _rumious_el3.setAttribute("class", "sub-text");
-      window.RUMIOUS_JSX.addDirective(_rumious_el3, _rumious_ctx_83f78419, "bind", "text", this.currentState);
+      window.RUMIOUS_JSX.addDirective(_rumious_el3, _rumious_ctx_3e2abae1, "bind", "text", this.currentState);
       _rumious_el.appendChild(_rumious_el3);
       _rumious_el.appendChild(document.createTextNode("\n        "));
       _rumious_frag.appendChild(_rumious_el);
@@ -261,13 +300,13 @@ class CanvasTextEditor extends s {
       _rumious_frag.appendChild(_rumious_el5);
       _rumious_frag.appendChild(document.createTextNode("\n        "));
       const _rumious_el6 = document.createElement("textarea");
-      window.RUMIOUS_JSX.addDirective(_rumious_el6, _rumious_ctx_83f78419, "ref", "standalone", this.textAreaRef);
-      window.RUMIOUS_JSX.addDirective(_rumious_el6, _rumious_ctx_83f78419, "on", "change", () => this.onTextInputChange());
+      window.RUMIOUS_JSX.addDirective(_rumious_el6, _rumious_ctx_3e2abae1, "ref", "standalone", this.textAreaRef);
+      window.RUMIOUS_JSX.addDirective(_rumious_el6, _rumious_ctx_3e2abae1, "on", "change", () => this.onTextInputChange());
       _rumious_el6.setAttribute("style", "width:100%; height:50vh;");
       _rumious_frag.appendChild(_rumious_el6);
       _rumious_frag.appendChild(document.createTextNode("\n      "));
-      _rumious_root_08694c04.appendChild(_rumious_frag);
-      return _rumious_root_08694c04;
+      _rumious_root_3237bb6d.appendChild(_rumious_frag);
+      return _rumious_root_3237bb6d;
     });
   }
 }
@@ -285,12 +324,12 @@ class Canvas extends s {
     this.canvasContentRef.text = "";
     switch (data) {
       case "text":
-        this.canvasContentRef.addChild(this.render(window.RUMIOUS_JSX.template(function (_rumious_root_b12a0165, _rumious_ctx_19e804fb) {
+        this.canvasContentRef.addChild(this.render(window.RUMIOUS_JSX.template(function (_rumious_root_3c5ab58a, _rumious_ctx_82423d6d) {
           const _rumious_el = window.RUMIOUS_JSX.createComponent(CanvasTextEditor);
-          _rumious_el.setup(_rumious_ctx_19e804fb, CanvasTextEditor);
+          _rumious_el.setup(_rumious_ctx_82423d6d, CanvasTextEditor);
           _rumious_el.props["context"] = this.props.context;
-          _rumious_root_b12a0165.appendChild(_rumious_el);
-          return _rumious_root_b12a0165;
+          _rumious_root_3c5ab58a.appendChild(_rumious_el);
+          return _rumious_root_3c5ab58a;
         })));
         break;
     }
@@ -302,20 +341,20 @@ class Canvas extends s {
     context.on("canvas:close", () => this.element.classList.remove("open"));
   }
   onChangeBtnClick() {
-    this.warp(window.RUMIOUS_JSX.template(function (_rumious_root_8c486c49, _rumious_ctx_b291644e) {
+    this.warp(window.RUMIOUS_JSX.template(function (_rumious_root_383a190c, _rumious_ctx_01c78b77) {
       const _rumious_el2 = window.RUMIOUS_JSX.createComponent(SelectCanvasModeModal);
-      _rumious_el2.setup(_rumious_ctx_b291644e, SelectCanvasModeModal);
+      _rumious_el2.setup(_rumious_ctx_01c78b77, SelectCanvasModeModal);
       _rumious_el2.props["context"] = this.props.context;
-      _rumious_root_8c486c49.appendChild(_rumious_el2);
-      return _rumious_root_8c486c49;
+      _rumious_root_383a190c.appendChild(_rumious_el2);
+      return _rumious_root_383a190c;
     }), document.body);
   }
   template() {
-    return window.RUMIOUS_JSX.template(function (_rumious_root_ed6d91a7, _rumious_ctx_a3af63f8) {
+    return window.RUMIOUS_JSX.template(function (_rumious_root_0c16226b, _rumious_ctx_5aae48ae) {
       const _rumious_frag = document.createDocumentFragment();
       _rumious_frag.appendChild(document.createTextNode("\n        "));
       const _rumious_el3 = document.createElement("div");
-      window.RUMIOUS_JSX.addDirective(_rumious_el3, _rumious_ctx_a3af63f8, "ref", "standalone", this.canvasRef);
+      window.RUMIOUS_JSX.addDirective(_rumious_el3, _rumious_ctx_5aae48ae, "ref", "standalone", this.canvasRef);
       _rumious_el3.setAttribute("class", "canvas-header p-3 d-flex align-center ");
       _rumious_el3.appendChild(document.createTextNode("\n          "));
       const _rumious_el4 = document.createElement("h4");
@@ -326,13 +365,13 @@ class Canvas extends s {
       _rumious_el5.setAttribute("class", "ml-auto d-flex align-center");
       _rumious_el5.appendChild(document.createTextNode("\n            "));
       const _rumious_el6 = document.createElement("button");
-      window.RUMIOUS_JSX.addDirective(_rumious_el6, _rumious_ctx_a3af63f8, "on", "click", () => this.onChangeBtnClick());
+      window.RUMIOUS_JSX.addDirective(_rumious_el6, _rumious_ctx_5aae48ae, "on", "click", () => this.onChangeBtnClick());
       _rumious_el6.setAttribute("class", "ml-auto btn btn-icon material-icons");
       _rumious_el6.appendChild(document.createTextNode("change_circle"));
       _rumious_el5.appendChild(_rumious_el6);
       _rumious_el5.appendChild(document.createTextNode("\n            "));
       const _rumious_el7 = document.createElement("button");
-      window.RUMIOUS_JSX.addDirective(_rumious_el7, _rumious_ctx_a3af63f8, "on", "click", () => this.element.classList.remove("open"));
+      window.RUMIOUS_JSX.addDirective(_rumious_el7, _rumious_ctx_5aae48ae, "on", "click", () => this.element.classList.remove("open"));
       _rumious_el7.setAttribute("class", "ml-auto btn btn-icon material-icons");
       _rumious_el7.appendChild(document.createTextNode("close"));
       _rumious_el5.appendChild(_rumious_el7);
@@ -345,23 +384,139 @@ class Canvas extends s {
       _rumious_el8.setAttribute("class", "p-3 canvas-contents");
       _rumious_el8.appendChild(document.createTextNode("\n          "));
       const _rumious_el9 = document.createElement("span");
-      window.RUMIOUS_JSX.addDirective(_rumious_el9, _rumious_ctx_a3af63f8, "ref", "standalone", this.emptyPlaceholder);
+      window.RUMIOUS_JSX.addDirective(_rumious_el9, _rumious_ctx_5aae48ae, "ref", "standalone", this.emptyPlaceholder);
       _rumious_el9.appendChild(document.createTextNode("\n            "));
       const _rumious_el10 = window.RUMIOUS_JSX.createComponent(EmptyPlaceholder);
-      _rumious_el10.setup(_rumious_ctx_a3af63f8, EmptyPlaceholder);
+      _rumious_el10.setup(_rumious_ctx_5aae48ae, EmptyPlaceholder);
       _rumious_el10.props["content"] = "No item here";
       _rumious_el9.appendChild(_rumious_el10);
       _rumious_el9.appendChild(document.createTextNode("\n          "));
       _rumious_el8.appendChild(_rumious_el9);
       _rumious_el8.appendChild(document.createTextNode("\n          "));
       const _rumious_el11 = document.createElement("span");
-      window.RUMIOUS_JSX.addDirective(_rumious_el11, _rumious_ctx_a3af63f8, "ref", "standalone", this.canvasContentRef);
+      window.RUMIOUS_JSX.addDirective(_rumious_el11, _rumious_ctx_5aae48ae, "ref", "standalone", this.canvasContentRef);
       _rumious_el8.appendChild(_rumious_el11);
       _rumious_el8.appendChild(document.createTextNode("\n        "));
       _rumious_frag.appendChild(_rumious_el8);
       _rumious_frag.appendChild(document.createTextNode("\n      "));
-      _rumious_root_ed6d91a7.appendChild(_rumious_frag);
-      return _rumious_root_ed6d91a7;
+      _rumious_root_0c16226b.appendChild(_rumious_frag);
+      return _rumious_root_0c16226b;
+    });
+  }
+}
+
+class TakePhotoModal extends s {
+  static tagName = "aurora-take-photo-modal";
+  modalRef = g();
+  videoRef = g();
+  canvasRef = g();
+  stream = null;
+  getModal() {
+    return new l(this.modalRef.target);
+  }
+  closeModal() {
+    this.getModal().close();
+    this.stopCamera();
+    setTimeout(() => this.element.remove(), 5000);
+  }
+  async startCamera() {
+    try {
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        video: true
+      });
+      const video = this.videoRef.target;
+      video.srcObject = this.stream;
+      video.play();
+    } catch (error) {
+      console.error("Failed to access webcam:", error);
+    }
+  }
+  stopCamera() {
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+      this.stream = null;
+    }
+  }
+  capturePhoto() {
+    const context = this.props.context;
+    const video = this.videoRef.target;
+    const canvas = this.canvasRef.target;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = canvas.toDataURL("image/png");
+    context.emit('chat:input:attach:image', imageData);
+    this.closeModal();
+  }
+  onRender() {
+    this.getModal().open();
+    this.startCamera();
+  }
+  template() {
+    return window.RUMIOUS_JSX.template(function (_rumious_root_f869983d, _rumious_ctx_7ca685ef) {
+      const _rumious_frag = document.createDocumentFragment();
+      _rumious_frag.appendChild(document.createTextNode("\n        "));
+      const _rumious_el = document.createElement("div");
+      _rumious_el.setAttribute("class", "modal");
+      window.RUMIOUS_JSX.addDirective(_rumious_el, _rumious_ctx_7ca685ef, "ref", "standalone", this.modalRef);
+      _rumious_el.appendChild(document.createTextNode("\n          "));
+      const _rumious_el2 = document.createElement("div");
+      _rumious_el2.setAttribute("class", "modal-content");
+      _rumious_el2.appendChild(document.createTextNode("\n            "));
+      const _rumious_el3 = document.createElement("div");
+      _rumious_el3.setAttribute("class", "modal-header");
+      _rumious_el3.appendChild(document.createTextNode("\n              "));
+      const _rumious_el4 = document.createElement("h3");
+      _rumious_el4.setAttribute("class", "modal-title");
+      _rumious_el4.appendChild(document.createTextNode("Take photo"));
+      _rumious_el3.appendChild(_rumious_el4);
+      _rumious_el3.appendChild(document.createTextNode("\n              "));
+      const _rumious_el5 = document.createElement("button");
+      window.RUMIOUS_JSX.addDirective(_rumious_el5, _rumious_ctx_7ca685ef, "on", "click", () => this.closeModal());
+      _rumious_el5.setAttribute("class", "ml-auto btn btn-icon material-icons");
+      _rumious_el5.appendChild(document.createTextNode("close"));
+      _rumious_el3.appendChild(_rumious_el5);
+      _rumious_el3.appendChild(document.createTextNode("\n            "));
+      _rumious_el2.appendChild(_rumious_el3);
+      _rumious_el2.appendChild(document.createTextNode("\n            "));
+      const _rumious_el6 = document.createElement("div");
+      _rumious_el6.setAttribute("class", "modal-body");
+      _rumious_el6.appendChild(document.createTextNode("\n              "));
+      const _rumious_el7 = document.createElement("video");
+      window.RUMIOUS_JSX.addDirective(_rumious_el7, _rumious_ctx_7ca685ef, "ref", "standalone", this.videoRef);
+      _rumious_el7.setAttribute("class", "rounded shadow mb-4");
+      _rumious_el7.setAttribute("autoplay", true);
+      _rumious_el7.setAttribute("muted", true);
+      _rumious_el7.setAttribute("style", "width:100%;");
+      _rumious_el6.appendChild(_rumious_el7);
+      _rumious_el6.appendChild(document.createTextNode("\n              "));
+      const _rumious_el8 = document.createElement("canvas");
+      window.RUMIOUS_JSX.addDirective(_rumious_el8, _rumious_ctx_7ca685ef, "ref", "standalone", this.canvasRef);
+      _rumious_el8.setAttribute("class", "hidden");
+      _rumious_el8.setAttribute("style", "display: none;");
+      _rumious_el6.appendChild(_rumious_el8);
+      _rumious_el6.appendChild(document.createTextNode("\n            "));
+      _rumious_el2.appendChild(_rumious_el6);
+      _rumious_el2.appendChild(document.createTextNode("\n            "));
+      const _rumious_el9 = document.createElement("div");
+      _rumious_el9.setAttribute("class", "modal-footer p-5");
+      _rumious_el9.appendChild(document.createTextNode("\n              "));
+      const _rumious_el10 = document.createElement("button");
+      window.RUMIOUS_JSX.addDirective(_rumious_el10, _rumious_ctx_7ca685ef, "on", "click", () => this.capturePhoto());
+      _rumious_el10.setAttribute("class", "btn btn-primary");
+      _rumious_el10.appendChild(document.createTextNode("Capture"));
+      _rumious_el9.appendChild(_rumious_el10);
+      _rumious_el9.appendChild(document.createTextNode("\n            "));
+      _rumious_el2.appendChild(_rumious_el9);
+      _rumious_el2.appendChild(document.createTextNode("\n          "));
+      _rumious_el.appendChild(_rumious_el2);
+      _rumious_el.appendChild(document.createTextNode("\n        "));
+      _rumious_frag.appendChild(_rumious_el);
+      _rumious_frag.appendChild(document.createTextNode("\n      "));
+      _rumious_root_f869983d.appendChild(_rumious_frag);
+      return _rumious_root_f869983d;
     });
   }
 }
@@ -371,28 +526,30 @@ class ChatBox extends s {
   static tagName = "aurora-chatbox";
   headerRef = g();
   listMsg = g();
+  attachedContentRef = g();
   messageRef = g();
   emptyPlaceholder = g();
+  attachedContents = [];
   constructor() {
     super();
   }
   addNote(msg) {
-    this.listMsg.addChild(this.render(window.RUMIOUS_JSX.template(function (_rumious_root_a9dfc3ce, _rumious_ctx_b5bf7b7f) {
+    this.listMsg.addChild(this.render(window.RUMIOUS_JSX.template(function (_rumious_root_341160c5, _rumious_ctx_d30a7b7b) {
       const _rumious_el = document.createElement("div");
       _rumious_el.setAttribute("class", "divider divider-text");
       _rumious_el.appendChild(document.createTextNode("\n        "));
       const _rumious_dymanic_ = document.createTextNode("");
       _rumious_el.appendChild(_rumious_dymanic_);
-      window.RUMIOUS_JSX.dynamicValue(_rumious_el, _rumious_dymanic_, msg, _rumious_ctx_b5bf7b7f);
+      window.RUMIOUS_JSX.dynamicValue(_rumious_el, _rumious_dymanic_, msg, _rumious_ctx_d30a7b7b);
       _rumious_el.appendChild(document.createTextNode("\n      "));
-      _rumious_root_a9dfc3ce.appendChild(_rumious_el);
-      return _rumious_root_a9dfc3ce;
+      _rumious_root_341160c5.appendChild(_rumious_el);
+      return _rumious_root_341160c5;
     })));
     this.emptyPlaceholder.addClasses("d-none");
     this.scrollToBottom();
   }
   addMessage(msg) {
-    this.listMsg.addChild(this.render(window.RUMIOUS_JSX.template(function (_rumious_root_2e5bba64, _rumious_ctx_427851b3) {
+    this.listMsg.addChild(this.render(window.RUMIOUS_JSX.template(function (_rumious_root_3e96a3b3, _rumious_ctx_191e17e9) {
       const _rumious_el2 = document.createElement("div");
       _rumious_el2.setAttribute("class", "message");
       _rumious_el2.appendChild(document.createTextNode("\n        "));
@@ -411,14 +568,14 @@ class ChatBox extends s {
       const _rumious_el6 = document.createElement("span");
       const _rumious_dymanic_2 = document.createTextNode("");
       _rumious_el6.appendChild(_rumious_dymanic_2);
-      window.RUMIOUS_JSX.dynamicValue(_rumious_el6, _rumious_dymanic_2, msg.sender.name, _rumious_ctx_427851b3);
+      window.RUMIOUS_JSX.dynamicValue(_rumious_el6, _rumious_dymanic_2, msg.sender.name, _rumious_ctx_191e17e9);
       _rumious_el5.appendChild(_rumious_el6);
       _rumious_el5.appendChild(document.createTextNode("\n            "));
       const _rumious_el7 = document.createElement("span");
       _rumious_el7.setAttribute("class", "sub-text");
       const _rumious_dymanic_3 = document.createTextNode("");
       _rumious_el7.appendChild(_rumious_dymanic_3);
-      window.RUMIOUS_JSX.dynamicValue(_rumious_el7, _rumious_dymanic_3, msg.sender.role, _rumious_ctx_427851b3);
+      window.RUMIOUS_JSX.dynamicValue(_rumious_el7, _rumious_dymanic_3, msg.sender.role, _rumious_ctx_191e17e9);
       _rumious_el5.appendChild(_rumious_el7);
       _rumious_el5.appendChild(document.createTextNode("\n          "));
       _rumious_el3.appendChild(_rumious_el5);
@@ -430,20 +587,29 @@ class ChatBox extends s {
       _rumious_el8.appendChild(document.createTextNode("\n          "));
       const _rumious_dymanic_4 = document.createTextNode("");
       _rumious_el8.appendChild(_rumious_dymanic_4);
-      window.RUMIOUS_JSX.dynamicValue(_rumious_el8, _rumious_dymanic_4, msg.contents.map(item => window.RUMIOUS_JSX.template(function (_rumious_root_9717b3f6, _rumious_ctx_d316f80c) {
+      window.RUMIOUS_JSX.dynamicValue(_rumious_el8, _rumious_dymanic_4, msg.contents.map(item => window.RUMIOUS_JSX.template(function (_rumious_root_be21b133, _rumious_ctx_e047f68e) {
         const _rumious_el9 = document.createElement("span");
-        window.RUMIOUS_JSX.addDirective(_rumious_el9, _rumious_ctx_d316f80c, "inject", "standalone", u(marked.parse(item)));
-        _rumious_root_9717b3f6.appendChild(_rumious_el9);
-        return _rumious_root_9717b3f6;
-      })), _rumious_ctx_427851b3);
+        window.RUMIOUS_JSX.addDirective(_rumious_el9, _rumious_ctx_e047f68e, "inject", "standalone", u(marked.parse(item)));
+        _rumious_root_be21b133.appendChild(_rumious_el9);
+        return _rumious_root_be21b133;
+      })), _rumious_ctx_191e17e9);
       _rumious_el8.appendChild(document.createTextNode("\n        "));
       _rumious_el2.appendChild(_rumious_el8);
       _rumious_el2.appendChild(document.createTextNode("\n      "));
-      _rumious_root_2e5bba64.appendChild(_rumious_el2);
-      return _rumious_root_2e5bba64;
+      _rumious_root_3e96a3b3.appendChild(_rumious_el2);
+      return _rumious_root_3e96a3b3;
     })));
     this.emptyPlaceholder.addClasses("d-none");
     this.scrollToBottom();
+  }
+  takePhoto() {
+    this.warp(window.RUMIOUS_JSX.template(function (_rumious_root_1afdae89, _rumious_ctx_dce7424c) {
+      const _rumious_el10 = window.RUMIOUS_JSX.createComponent(TakePhotoModal);
+      _rumious_el10.setup(_rumious_ctx_dce7424c, TakePhotoModal);
+      _rumious_el10.props["context"] = this.props.context;
+      _rumious_root_1afdae89.appendChild(_rumious_el10);
+      return _rumious_root_1afdae89;
+    }), document.body);
   }
   scrollToBottom() {
     requestAnimationFrame(() => {
@@ -454,9 +620,19 @@ class ChatBox extends s {
       });
     });
   }
+  attachedImage(data) {
+    this.attachedContents.push(data);
+    this.attachedContentRef.addChild(this.render(window.RUMIOUS_JSX.template(function (_rumious_root_74f57965, _rumious_ctx_c87a1ec0) {
+      const _rumious_el11 = document.createElement("img");
+      _rumious_el11.setAttribute("src", data);
+      _rumious_root_74f57965.appendChild(_rumious_el11);
+      return _rumious_root_74f57965;
+    })));
+  }
   onCreate() {
     this.props.context.on("msg", msg => this.addMessage(msg));
     this.props.context.on("error", () => this.addNote("An error occurred "));
+    this.props.context.on("chat:input:attach:image", data => this.attachedImage(data));
   }
   async onRender() {
     if (isMobileView()) {
@@ -476,81 +652,100 @@ class ChatBox extends s {
     const msg = this.messageRef.value?.trim();
     if (!msg) return;
     const ctx = this.props.context;
-    ChatService.sendMsgText(ctx, ctx.get("user"), msg);
+    ChatService.sendMsgText(ctx, ctx.get("user"), msg, this.attachedContents[0]);
     this.messageRef.value = "";
+    this.attachedContentRef.text = "";
   }
   template() {
-    return window.RUMIOUS_JSX.template(function (_rumious_root_832d9b8e, _rumious_ctx_8203d5a4) {
+    return window.RUMIOUS_JSX.template(function (_rumious_root_1aa1494c, _rumious_ctx_72106f41) {
       const _rumious_frag = document.createDocumentFragment();
       _rumious_frag.appendChild(document.createTextNode("\n        "));
-      const _rumious_el10 = document.createElement("div");
-      window.RUMIOUS_JSX.addDirective(_rumious_el10, _rumious_ctx_8203d5a4, "ref", "standalone", this.headerRef);
-      _rumious_el10.setAttribute("class", "chatbox-header p-3 d-flex align-center");
-      _rumious_el10.appendChild(document.createTextNode("\n          "));
-      const _rumious_el11 = document.createElement("h4");
-      _rumious_el11.appendChild(document.createTextNode("Chat"));
-      _rumious_el10.appendChild(_rumious_el11);
-      _rumious_el10.appendChild(document.createTextNode("\n          "));
-      const _rumious_el12 = document.createElement("span");
-      _rumious_el12.setAttribute("class", "ml-auto  d-flex align-center");
-      _rumious_el12.appendChild(document.createTextNode("\n            "));
-      const _rumious_el13 = document.createElement("button");
-      _rumious_el13.setAttribute("class", "ml-auto btn btn-icon material-icons");
-      _rumious_el13.appendChild(document.createTextNode("add"));
-      _rumious_el12.appendChild(_rumious_el13);
-      _rumious_el12.appendChild(document.createTextNode("\n            "));
-      const _rumious_el14 = document.createElement("button");
-      _rumious_el14.setAttribute("class", "ml-auto open-canvas-btn btn btn-icon material-icons");
-      window.RUMIOUS_JSX.addDirective(_rumious_el14, _rumious_ctx_8203d5a4, "on", "click", () => this.props.context.emit("canvas:open", null));
-      _rumious_el14.appendChild(document.createTextNode("menu_open"));
-      _rumious_el12.appendChild(_rumious_el14);
+      const _rumious_el12 = document.createElement("div");
+      window.RUMIOUS_JSX.addDirective(_rumious_el12, _rumious_ctx_72106f41, "ref", "standalone", this.headerRef);
+      _rumious_el12.setAttribute("class", "chatbox-header p-3 d-flex align-center");
       _rumious_el12.appendChild(document.createTextNode("\n          "));
-      _rumious_el10.appendChild(_rumious_el12);
-      _rumious_el10.appendChild(document.createTextNode("\n        "));
-      _rumious_frag.appendChild(_rumious_el10);
+      const _rumious_el13 = document.createElement("h4");
+      _rumious_el13.appendChild(document.createTextNode("Chat"));
+      _rumious_el12.appendChild(_rumious_el13);
+      _rumious_el12.appendChild(document.createTextNode("\n          "));
+      const _rumious_el14 = document.createElement("span");
+      _rumious_el14.setAttribute("class", "ml-auto  d-flex align-center");
+      _rumious_el14.appendChild(document.createTextNode("\n            "));
+      const _rumious_el15 = document.createElement("button");
+      window.RUMIOUS_JSX.addDirective(_rumious_el15, _rumious_ctx_72106f41, "on", "click", () => this.takePhoto());
+      _rumious_el15.setAttribute("class", "ml-auto btn btn-icon material-icons");
+      _rumious_el15.appendChild(document.createTextNode("add_a_photo"));
+      _rumious_el14.appendChild(_rumious_el15);
+      _rumious_el14.appendChild(document.createTextNode("\n            "));
+      const _rumious_el16 = document.createElement("button");
+      _rumious_el16.setAttribute("class", "ml-auto btn btn-icon material-icons");
+      _rumious_el16.appendChild(document.createTextNode("add"));
+      _rumious_el14.appendChild(_rumious_el16);
+      _rumious_el14.appendChild(document.createTextNode("\n            "));
+      const _rumious_el17 = document.createElement("button");
+      _rumious_el17.setAttribute("class", "ml-auto open-canvas-btn btn btn-icon material-icons");
+      window.RUMIOUS_JSX.addDirective(_rumious_el17, _rumious_ctx_72106f41, "on", "click", () => this.props.context.emit("canvas:open", null));
+      _rumious_el17.appendChild(document.createTextNode("menu_open"));
+      _rumious_el14.appendChild(_rumious_el17);
+      _rumious_el14.appendChild(document.createTextNode("\n          "));
+      _rumious_el12.appendChild(_rumious_el14);
+      _rumious_el12.appendChild(document.createTextNode("\n        "));
+      _rumious_frag.appendChild(_rumious_el12);
       _rumious_frag.appendChild(document.createTextNode("\n        \n        "));
-      const _rumious_el15 = document.createElement("div");
-      window.RUMIOUS_JSX.addDirective(_rumious_el15, _rumious_ctx_8203d5a4, "ref", "standalone", this.listMsg);
-      _rumious_el15.setAttribute("class", "chatbox-contents p-3");
-      _rumious_el15.appendChild(document.createTextNode("\n          "));
-      const _rumious_el16 = document.createElement("span");
-      window.RUMIOUS_JSX.addDirective(_rumious_el16, _rumious_ctx_8203d5a4, "ref", "standalone", this.emptyPlaceholder);
-      _rumious_el16.appendChild(document.createTextNode("\n            "));
-      const _rumious_el17 = window.RUMIOUS_JSX.createComponent(EmptyPlaceholder);
-      _rumious_el17.setup(_rumious_ctx_8203d5a4, EmptyPlaceholder);
-      _rumious_el17.props["content"] = "Everything is ready, let's start your conversation  ";
-      _rumious_el17.props["icon"] = "forum";
-      _rumious_el16.appendChild(_rumious_el17);
-      _rumious_el16.appendChild(document.createTextNode("\n          "));
-      _rumious_el15.appendChild(_rumious_el16);
-      _rumious_el15.appendChild(document.createTextNode("\n        "));
-      _rumious_frag.appendChild(_rumious_el15);
-      _rumious_frag.appendChild(document.createTextNode("\n        "));
       const _rumious_el18 = document.createElement("div");
-      _rumious_el18.setAttribute("class", "chatbox-input d-flex flex-column align-center justify-between");
+      window.RUMIOUS_JSX.addDirective(_rumious_el18, _rumious_ctx_72106f41, "ref", "standalone", this.listMsg);
+      _rumious_el18.setAttribute("class", "chatbox-contents p-3");
       _rumious_el18.appendChild(document.createTextNode("\n          "));
-      const _rumious_el19 = document.createElement("button");
-      _rumious_el19.setAttribute("class", "btn btn-icon material-icons");
-      _rumious_el19.appendChild(document.createTextNode("add"));
+      const _rumious_el19 = document.createElement("span");
+      window.RUMIOUS_JSX.addDirective(_rumious_el19, _rumious_ctx_72106f41, "ref", "standalone", this.emptyPlaceholder);
+      _rumious_el19.appendChild(document.createTextNode("\n            "));
+      const _rumious_el20 = window.RUMIOUS_JSX.createComponent(EmptyPlaceholder);
+      _rumious_el20.setup(_rumious_ctx_72106f41, EmptyPlaceholder);
+      _rumious_el20.props["content"] = "Everything is ready, let's start your conversation  ";
+      _rumious_el20.props["icon"] = "forum";
+      _rumious_el19.appendChild(_rumious_el20);
+      _rumious_el19.appendChild(document.createTextNode("\n          "));
       _rumious_el18.appendChild(_rumious_el19);
-      _rumious_el18.appendChild(document.createTextNode("\n          "));
-      const _rumious_el20 = document.createElement("input");
-      window.RUMIOUS_JSX.addDirective(_rumious_el20, _rumious_ctx_8203d5a4, "ref", "standalone", this.messageRef);
-      _rumious_el20.setAttribute("type", "text");
-      _rumious_el20.setAttribute("class", "form-input");
-      _rumious_el20.setAttribute("placeholder", "Type message ...");
-      _rumious_el18.appendChild(_rumious_el20);
-      _rumious_el18.appendChild(document.createTextNode("\n          "));
-      const _rumious_el21 = document.createElement("button");
-      window.RUMIOUS_JSX.addDirective(_rumious_el21, _rumious_ctx_8203d5a4, "on", "click", () => this.onSendBtnClick());
-      _rumious_el21.setAttribute("class", "btn btn-icon material-icons");
-      _rumious_el21.appendChild(document.createTextNode("send"));
-      _rumious_el18.appendChild(_rumious_el21);
       _rumious_el18.appendChild(document.createTextNode("\n        "));
       _rumious_frag.appendChild(_rumious_el18);
-      _rumious_frag.appendChild(document.createTextNode("\n      "));
-      _rumious_root_832d9b8e.appendChild(_rumious_frag);
-      return _rumious_root_832d9b8e;
+      _rumious_frag.appendChild(document.createTextNode("\n        "));
+      const _rumious_el21 = document.createElement("div");
+      _rumious_el21.setAttribute("class", "chatbox-input p-2");
+      _rumious_el21.appendChild(document.createTextNode("\n          "));
+      const _rumious_el22 = document.createElement("div");
+      _rumious_el22.setAttribute("class", "attached-preview");
+      window.RUMIOUS_JSX.addDirective(_rumious_el22, _rumious_ctx_72106f41, "ref", "standalone", this.attachedContentRef);
+      _rumious_el22.setAttribute("class", "attached-preview mb-2");
+      _rumious_el21.appendChild(_rumious_el22);
+      _rumious_el21.appendChild(document.createTextNode("\n          "));
+      const _rumious_el23 = document.createElement("div");
+      _rumious_el23.setAttribute("class", "input-bar d-flex align-center gap-2");
+      _rumious_el23.appendChild(document.createTextNode("\n            "));
+      const _rumious_el24 = document.createElement("button");
+      window.RUMIOUS_JSX.addDirective(_rumious_el24, _rumious_ctx_72106f41, "on", "click", () => this.takePhoto());
+      _rumious_el24.setAttribute("class", "btn btn-icon material-icons");
+      _rumious_el24.appendChild(document.createTextNode("add"));
+      _rumious_el23.appendChild(_rumious_el24);
+      _rumious_el23.appendChild(document.createTextNode("\n            "));
+      const _rumious_el25 = document.createElement("input");
+      window.RUMIOUS_JSX.addDirective(_rumious_el25, _rumious_ctx_72106f41, "ref", "standalone", this.messageRef);
+      _rumious_el25.setAttribute("type", "text");
+      _rumious_el25.setAttribute("class", "form-input flex-1");
+      _rumious_el25.setAttribute("placeholder", "Type message ...");
+      _rumious_el23.appendChild(_rumious_el25);
+      _rumious_el23.appendChild(document.createTextNode("\n            "));
+      const _rumious_el26 = document.createElement("button");
+      window.RUMIOUS_JSX.addDirective(_rumious_el26, _rumious_ctx_72106f41, "on", "click", () => this.onSendBtnClick());
+      _rumious_el26.setAttribute("class", "btn btn-icon material-icons");
+      _rumious_el26.appendChild(document.createTextNode("send"));
+      _rumious_el23.appendChild(_rumious_el26);
+      _rumious_el23.appendChild(document.createTextNode("\n          "));
+      _rumious_el21.appendChild(_rumious_el23);
+      _rumious_el21.appendChild(document.createTextNode("\n        "));
+      _rumious_frag.appendChild(_rumious_el21);
+      _rumious_frag.appendChild(document.createTextNode("\n    "));
+      _rumious_root_1aa1494c.appendChild(_rumious_frag);
+      return _rumious_root_1aa1494c;
     });
   }
 }
@@ -573,7 +768,7 @@ class Page extends s {
     super();
   }
   template() {
-    return window.RUMIOUS_JSX.template(function (_rumious_root_d6897478, _rumious_ctx_d56551f5) {
+    return window.RUMIOUS_JSX.template(function (_rumious_root_f1d7e038, _rumious_ctx_08977996) {
       const _rumious_frag = document.createDocumentFragment();
       _rumious_frag.appendChild(document.createTextNode("\n        "));
       const _rumious_el = document.createElement("div");
@@ -584,18 +779,18 @@ class Page extends s {
       _rumious_el2.setAttribute("class", "content");
       _rumious_el2.appendChild(document.createTextNode("\n            "));
       const _rumious_el3 = window.RUMIOUS_JSX.createComponent(ChatBox);
-      _rumious_el3.setup(_rumious_ctx_d56551f5, ChatBox);
+      _rumious_el3.setup(_rumious_ctx_08977996, ChatBox);
       _rumious_el3.props["context"] = this.chatContext;
       _rumious_el2.appendChild(_rumious_el3);
       _rumious_el2.appendChild(document.createTextNode("\n          "));
       _rumious_el.appendChild(_rumious_el2);
       _rumious_el.appendChild(document.createTextNode("\n          "));
       const _rumious_el4 = document.createElement("div");
-      window.RUMIOUS_JSX.addDirective(_rumious_el4, _rumious_ctx_d56551f5, "ref", "standalone", this.embedElement);
+      window.RUMIOUS_JSX.addDirective(_rumious_el4, _rumious_ctx_08977996, "ref", "standalone", this.embedElement);
       _rumious_el4.setAttribute("class", "content");
       _rumious_el4.appendChild(document.createTextNode("\n            "));
       const _rumious_el5 = window.RUMIOUS_JSX.createComponent(Canvas);
-      _rumious_el5.setup(_rumious_ctx_d56551f5, Canvas);
+      _rumious_el5.setup(_rumious_ctx_08977996, Canvas);
       _rumious_el5.props["context"] = this.chatContext;
       _rumious_el4.appendChild(_rumious_el5);
       _rumious_el4.appendChild(document.createTextNode("\n          "));
@@ -603,8 +798,8 @@ class Page extends s {
       _rumious_el.appendChild(document.createTextNode("\n        "));
       _rumious_frag.appendChild(_rumious_el);
       _rumious_frag.appendChild(document.createTextNode("\n      "));
-      _rumious_root_d6897478.appendChild(_rumious_frag);
-      return _rumious_root_d6897478;
+      _rumious_root_f1d7e038.appendChild(_rumious_frag);
+      return _rumious_root_f1d7e038;
     });
   }
 }
