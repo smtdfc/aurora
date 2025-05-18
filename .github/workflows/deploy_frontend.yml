@@ -27,6 +27,8 @@ jobs:
           rollup -c
           npm run style
           cd ../../
+        env:
+          BACKEND_HOST: ${{ secrets.BACKEND_HOST }}
 
       - name: Deploy public/ to frontend_deploy
         run: |
