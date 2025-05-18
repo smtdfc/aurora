@@ -3,6 +3,7 @@
 		"packages/**"
 	],
 	"scripts": {
+		"prepare:server": "chmod +x prepare_server.sh && ./prepare_server.sh",
 		"build": "chmod +x build.sh && ./build.sh",
 		"server": "node ./packages/server/dist/"
 	},
