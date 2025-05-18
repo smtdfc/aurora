@@ -3,7 +3,8 @@ import { UserInfo } from './user.js';
 export interface MessageInfo {
   id: string,
   sender: UserInfo,
-  contents: string[]
+  contents: string[],
+  image: string | null
 }
 
 
